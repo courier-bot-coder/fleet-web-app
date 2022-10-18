@@ -1,0 +1,99 @@
+#THIS WORKED FOR MONGODB
+# replicaCount: 1
+# mongodb:
+#   name: mongodb
+#   namespace: default
+#   containers:
+#     image: mongo:3.6.5-jessie
+#   volumeMounts:
+#       name: mongo-persistent-storage
+#       mountPath: /data/db
+#   volumes:
+#       name: mongo-persistent-storage
+#       persistentVolumeClaim:
+#         claimName: mongo-pvc
+# fleetman_mongodb:
+#     name: fleetman-mongodb
+#     namespace: default
+#     ports:
+#         name: http
+#         port: 27017
+#         targetPort: 27017
+#     type: ClusterIP
+replicaCount: 1
+position_simulator:
+   name: position-simulator
+   namespace: default
+   container: 
+    image: richardchesterwood/k8s-fleetman-position-simulator:release2
+position_tracker:      
+  name: position-tracker
+  namespace: default
+  containers:
+    image: richardchesterwood/k8s-fleetman-position-tracker:release3
+  service:
+    ports:
+      name: http
+      port: 8080
+  type: ClusterIP
+webapp:
+  name: webapp
+  namespace: default
+  containers:
+    image: richardchesterwood/k8s-fleetman-webapp-angular:release2
+fleetman_webapp:
+  name: fleetman-webapp
+  namespace: default
+  ports:
+    name: http
+    port: 80
+    targetPort: 80
+  type: NodePort
+api_gateway:
+  name: api-gateway
+  namespace: default
+  containers:
+    image: richardchesterwood/k8s-fleetman-api-gateway:release2
+fleetman_api_gateway:
+  name: fleetman-api-gateway
+  namespace: default
+  ports:
+    name: http
+    port: 8080
+    targetPort: 8080
+  type: NodePort
+mongodb:
+  name: mongodb
+  namespace: default
+  containers:
+    image: mongo:3.6.5-jessie
+  volumeMounts:
+      name: mongo-persistent-storage
+      mountPath: /data/db
+  volumes:
+      name: mongo-persistent-storage
+      persistentVolumeClaim:
+        claimName: mongo-pvc
+fleetman_mongodb:
+    name: fleetman-mongodb
+    namespace: default
+    ports:
+        name: http
+        port: 27017
+        targetPort: 27017
+    type: ClusterIP
+queue:
+  name: queue
+  namespace: default
+  containers:
+    image: richardchesterwood/k8s-fleetman-queue:release2
+fleetman_queue:
+  name: fleetman-queue
+  namespace: default
+  ports:
+    name: http
+    port: 80
+    targetPort: 8161
+    name2: endpoint
+    port2: 61616   
+  type: LoadBalancer

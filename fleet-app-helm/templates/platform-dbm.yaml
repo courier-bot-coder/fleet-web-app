@@ -1,0 +1,84 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: {{ .Values.mongodb.name }}
+#   namespace: {{ .Values.mongodb.namespace }}
+# spec:
+#   selector:
+#     matchLabels:
+#       app: {{ .Values.mongodb.name }}
+#   replicas: 1
+#   template:
+#     metadata:
+#       namespace: {{ .Values.mongodb.namespace }}
+#       labels:
+#         app: {{ .Values.mongodb.name }}
+#     spec:
+#       containers:
+#         - name: {{ .Values.mongodb.name }}
+#           image: {{ .Values.mongodb.containers.image }}
+#           volumeMounts:
+#               name: {{ .Values.mongodb.volumeMounts.name }}
+#               mountPath: {{ .Values.mongodb.volumeMounts.mountPath }}
+#       volumes:
+#         - name: {{ .Values.mongodb.volumes.name }}
+#           persistentVolumeClaim:
+#             claimName: {{ .Values.mongodb.volumes.persistentVolumeClaim.claimName }}
+    
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: {{ .Values.fleetman_mongodb.name }}
+#   namespace: {{ .Values.fleetman_mongodb.namespace }}
+# spec:
+#   selector:
+#     app: {{ .Values.mongodb.name }}
+#   ports:
+#     - name: {{ .Values.fleetman_mongodb.ports.name }}
+#       port: {{ .Values.fleetman_mongodb.ports.port }}
+#       targetPort: {{ .Values.fleetman_mongodb.ports.targetPort }}
+#   type: {{ .Values.fleetman_mongodb.type }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: mongodb
+  replicas: 1
+  template:
+    metadata:
+      namespace: default
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:3.6.5-jessie
+          volumeMounts:
+            - name: mongo-persistent-storage
+              # Directory in the container to mount volume
+              mountPath: /data/db
+      # volume doc: https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/
+      volumes:
+        - name: mongo-persistent-storage
+          persistentVolumeClaim:
+            claimName: mongo-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-mongodb
+  namespace: default
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - name: http
+      port: 27017
+      targetPort: 27017
+  type: ClusterIP
