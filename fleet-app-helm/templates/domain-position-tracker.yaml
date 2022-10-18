@@ -1,46 +1,5 @@
 
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: {{ .Values.position_tracker.name }}
-#   namespace: {{ .Values.position_tracker.namespace }}
-# spec:
-#   selector:
-#     matchLabels:
-#       app: {{ .Values.position_tracker.name }}
-#   replicas: 1
-#   template:
-#     metadata:
-#       namespace: {{ .Values.position_tracker.namespace }}
-#       labels:
-#         app: {{ .Values.position_tracker.name }}
-#     spec:
-#       containers:
-#       - name: {{ .Values.position_tracker.name }}
-#         image: richardchesterwood/k8s-fleetman-position-tracker:release3
-#         env:
-#         - name: SPRING_PROFILES_ACTIVE
-#           value: production-microservice
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: {{ .Values.position_tracker.name }}
-#   namespace: {{ .Values.position_tracker.namespace }}
-# spec:
-#   selector:
-#     app: {{ .Values.position_tracker.name }}
-#   # ports:
-#   #   - name: http
-#   #     port: 80
-#   #     targetPort: 8080
-#   # type: LoadBalancer
-#   ports:
-#     - name: {{ .Values.position_tracker.service.ports.name }}
-#       port: {{ .Values.position_tracker.service.ports.port }}
 
-#   type: {{ .Values.position_tracker.service.type }}
 ---
 apiVersion: apps/v1
 kind: Deployment
