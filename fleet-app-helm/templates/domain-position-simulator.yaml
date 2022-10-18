@@ -1,26 +1,4 @@
----
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: {{ .Values.position_simulator.name }}
-#   namespace: {{ .Values.position_simulator.namespace }}
-# spec:
-#   selector:
-#     matchLabels:
-#       app: {{ .Values.position_simulator.name }}
-#   replicas: 2
-#   template:
-#     metadata:
-#       namespace: {{ .Values.position_simulator.namespace }}
-#       labels:
-#         app: {{ .Values.position_simulator.name }}
-#     spec:
-#       containers:
-#       - name: {{ .Values.position_simulator.name }}
-#         image: richardchesterwood/k8s-fleetman-position-simulator:release2
-#         env:
-#         - name: {{ .Values.position_simulator.name }}
-#           value: production-microservice
+
 ---
 apiVersion: apps/v1
 kind: Deployment
