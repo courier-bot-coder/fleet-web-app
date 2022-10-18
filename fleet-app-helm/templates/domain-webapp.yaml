@@ -1,41 +1,4 @@
-# This YAML did not work with MetalLB because the fleetman-queue service had two ports - I am guessing that MetalLB did not know what to do with the 2nd port
----
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: {{ .Values.webapp.name }}
-#   namespace: {{ .Values.webapp.namespace }}
-# spec:
-#   selector:
-#     matchLabels:
-#       app: {{ .Values.webapp.name }}
-#   replicas: 1
-#   template:
-#     metadata:
-#       namespace: {{ .Values.webapp.namespace }}
-#       labels:
-#         app: {{ .Values.webapp.name }}
-#     spec:
-#       containers:
-#       - name: {{ .Values.webapp.name }}
-#         image: richardchesterwood/k8s-fleetman-webapp-angular:release2
-#         env:
-#         - name: SPRING_PROFILES_ACTIVE
-#           value: production-microservice
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: {{ .Values.fleetman_webapp.name }}
-#   namespace: {{ .Values.fleetman_webapp.namespace }}
-# spec:
-#   selector:
-#     app: {{ .Values.webapp.name }}
-#   ports:
-#     - name: {{ .Values.fleetman_webapp.ports.name }}
-#       port: {{ .Values.fleetman_webapp.ports.port }}
-#       targetPort: {{ .Values.fleetman_webapp.ports.targetPort }}
-#   type: {{ .Values.fleetman_webapp.type }}
+
 
 apiVersion: apps/v1
 kind: Deployment
